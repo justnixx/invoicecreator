@@ -6,6 +6,7 @@ function Form() {
   // Form state
   const [invoiceData, setInvoiceData] = useState({
     details: {
+      companyLogo: "",
       currency: "",
       companyName: "",
       companyAddress: "",
@@ -30,6 +31,11 @@ function Form() {
   // Stores maximum number of item input fields allowed
   const ITEM_MAX_COUNT = 10;
 
+  // Stores the current logo in the state
+  const {
+    details: { companyLogo },
+  } = invoiceData;
+
   // Adds new item input fields
   const addItem = () => {
     setInvoiceData((prevState) => ({
@@ -49,12 +55,17 @@ function Form() {
   };
 
   // Handles onchange event on input fields
-  const onchangeHandler = ({ target: { name, value } }, index) => {
+  const onchangeHandler = ({ target: { name, value, files } }, index) => {
     const details = { ...invoiceData.details };
     const inputItems = [...invoiceData.inputItems];
 
     if (details.hasOwnProperty(name)) {
-      details[name] = value;
+      if (files) {
+        const tempFileUrl = URL.createObjectURL(files[0]);
+        details[name] = tempFileUrl;
+      } else {
+        details[name] = value;
+      }
     } else {
       inputItems[index][name] = value;
     }
@@ -75,7 +86,7 @@ function Form() {
           <h2>Invoice Details</h2>
           <fieldset>
             <legend>From</legend>
-            <Grid>
+            <div className={style.input_group}>
               <div style={{ marginBottom: "20px" }}>
                 <label
                   htmlFor="currency"
@@ -99,10 +110,32 @@ function Form() {
                   ))}
                 </select>
               </div>
-            </Grid>
+              <div>
+                {companyLogo && (
+                  <img
+                    className={style.company_logo}
+                    src={companyLogo}
+                    alt="Company logo"
+                  />
+                )}
+                <label
+                  className={style.file_upload_wrapper}
+                  htmlFor="companyLogo"
+                >
+                  <input
+                    type="file"
+                    id="companyLogo"
+                    name="companyLogo"
+                    accept="image/*"
+                    onChange={onchangeHandler}
+                  />
+                  {companyLogo ? "Choose a different logo" : "Upload a logo"}
+                </label>
+              </div>
+            </div>
             <div className={style.input_group}>
               <div>
-                <label htmlFor="companyName">Company Name</label>
+                <label htmlFor="companyName">Company name</label>
                 <input
                   type="text"
                   id="companyName"
@@ -113,7 +146,7 @@ function Form() {
                 />
               </div>
               <div>
-                <label htmlFor="companyAddress">Company Address</label>
+                <label htmlFor="companyAddress">Company address</label>
                 <input
                   type="text"
                   id="companyAddress"
@@ -129,7 +162,7 @@ function Form() {
             <legend>Invoice</legend>
             <div className={style.input_group}>
               <div>
-                <label htmlFor="invoiceNumber">Invoice Number</label>
+                <label htmlFor="invoiceNumber">Invoice number</label>
                 <input
                   type="number"
                   id="invoiceNumber"
@@ -140,7 +173,7 @@ function Form() {
                 />
               </div>
               <div>
-                <label htmlFor="invoiceDate">Invoice Date</label>
+                <label htmlFor="invoiceDate">Invoice date</label>
                 <input
                   type="date"
                   id="invoiceDate"
@@ -173,7 +206,7 @@ function Form() {
                   id="customer Address"
                   name="billingAddress"
                   placeholder="Customer address"
-                  value={invoiceData.details.billingName}
+                  value={invoiceData.details.billingAddress}
                   onChange={(e) => onchangeHandler(e)}
                 />
               </div>

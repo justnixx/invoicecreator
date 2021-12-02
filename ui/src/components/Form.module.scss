@@ -25,9 +25,32 @@
     -webkit-column-gap: 10px;
     -moz-column-gap: 10px;
     column-gap: 10px;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 
     & > div {
       width: 100%;
+      position: relative;
+
+      .company_logo {
+        position: absolute;
+        max-width: 60px;
+        max-height: 60px;
+        top: -60px;
+        right: 50%;
+        -webkit-transform: translateX(50%);
+        -ms-transform: translateX(50%);
+        transform: translateX(50%);
+
+        @media screen and (max-width: 600px) {
+          top: -118.5px;
+          right: 0;
+          -webkit-transform: translateX(0);
+          -ms-transform: translateX(0);
+          transform: translateX(0);
+        }
+      }
     }
 
     label,
@@ -35,6 +58,21 @@
     select {
       display: block;
       width: 100%;
+    }
+
+    label.file_upload_wrapper {
+      position: relative;
+      text-align: center;
+      padding: 10px 20px;
+      border: 1px solid #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 0;
+
+      input[type="file"] {
+        display: none;
+        position: absolute;
+      }
     }
 
     @media screen and (max-width: 600px) {
@@ -123,6 +161,7 @@
     & > button {
       text-transform: uppercase;
       width: 100%;
+      margin-bottom: 20px;
     }
   }
 
