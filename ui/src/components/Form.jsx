@@ -2,11 +2,12 @@ import { useState } from "react";
 import style from "./Form.module.scss";
 import Grid from "./Grid";
 
-function Form() {
+function Form(props) {
   // Form state
   const [invoiceData, setInvoiceData] = useState({
     details: {
       companyLogo: "",
+      companyLogoTemp: "",
       currency: "",
       companyName: "",
       companyAddress: "",
@@ -29,11 +30,11 @@ function Form() {
   ];
 
   // Stores maximum number of item input fields allowed
-  const ITEM_MAX_COUNT = 10;
+  const ITEM_MAX_COUNT = 5;
 
   // Stores the current logo in the state
   const {
-    details: { companyLogo },
+    details: { companyLogoTemp },
   } = invoiceData;
 
   // Adds new item input fields
@@ -61,8 +62,10 @@ function Form() {
 
     if (details.hasOwnProperty(name)) {
       if (files) {
-        const tempFileUrl = URL.createObjectURL(files[0]);
-        details[name] = tempFileUrl;
+        const [file] = files;
+        const tempFileUrl = URL.createObjectURL(file);
+        details[name] = file;
+        details["companyLogoTemp"] = tempFileUrl;
       } else {
         details[name] = value;
       }
@@ -76,7 +79,7 @@ function Form() {
   // Send invoice data to the backend
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(invoiceData);
+    props.onCreateAndDownloadInvoice(invoiceData);
   };
 
   return (
@@ -111,10 +114,10 @@ function Form() {
                 </select>
               </div>
               <div>
-                {companyLogo && (
+                {companyLogoTemp && (
                   <img
                     className={style.company_logo}
-                    src={companyLogo}
+                    src={companyLogoTemp}
                     alt="Company logo"
                   />
                 )}
@@ -129,7 +132,9 @@ function Form() {
                     accept="image/*"
                     onChange={onchangeHandler}
                   />
-                  {companyLogo ? "Choose a different logo" : "Upload a logo"}
+                  {companyLogoTemp
+                    ? "Choose a different logo"
+                    : "Upload a logo"}
                 </label>
               </div>
             </div>

@@ -1,24 +1,30 @@
 import express from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
-import pdf from "html-pdf";
+import fileUpload from "express-fileupload";
+
+import { createInvoice, sendInvoice } from "./controllers/invoice.js";
 
 // Initialize express
 const app = express();
 
+// Stores server port number
 const PORT = process.env.PORT || 5000;
 
+// Middleware
 app.use(cors());
-app.use(bodyParser.json());
+
+app.use(
+  fileUpload({
+    createParentPath: true,
+    limits: { fileSize: 1024 * 1024 }, // 1MB
+    abortOnLimit: true,
+  })
+);
 
 // Routes
-app.post("/create", (req, res) => {
-  res.send("POST: ok");
-});
+app.post("/create", createInvoice);
 
-app.get("/send", (req, res) => {
-  res.send("GET: ok");
-});
+app.get("/download", sendInvoice);
 
 // Start server
 app.listen(PORT, () => `Server started on http://localhost:${PORT}`);

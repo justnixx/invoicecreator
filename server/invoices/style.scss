@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;1,200&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.8;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 12px;
+  background-color: rgba(241, 239, 239, 0.369);
+}
+
+.outer-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  .logo {
+    width: 100%;
+    max-width: 156px;
+  }
+
+  h1,
+  h2 {
+    font-weight: 300;
+  }
+
+  h1 {
+    text-transform: capitalize;
+  }
+
+  h2 {
+    text-transform: uppercase;
+  }
+
+  thead {
+    th {
+      height: 70px;
+      padding: 14px;
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    &:last-of-type {
+      border-bottom: 2px solid rgba(212, 35, 35, 0.122);
+
+      th {
+        background-color: #fff;
+        color: inherit;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+.inner-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead {
+    th {
+      padding: 10px 14px;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      td {
+        padding: 10px 14px;
+      }
+
+      &:last-of-type {
+        border-bottom: 2px solid rgba(212, 35, 35, 0.122);
+      }
+    }
+  }
+}
+
+footer {
+  & > div {
+    &:first-of-type {
+      & > div {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        float: right;
+        padding-top: 10px;
+      }
+
+      &::after {
+        display: block;
+        content: "";
+        clear: right;
+      }
+    }
+
+    &:last-of-type {
+      margin-top: 50px;
+      text-align: center;
+    }
+  }
+}
