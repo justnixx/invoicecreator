@@ -83,7 +83,12 @@ function Form() {
                 >
                   Choose currency
                 </label>
-                <select defaultValue="DEFAULT" id="currency" name="currency">
+                <select
+                  defaultValue="DEFAULT"
+                  id="currency"
+                  name="currency"
+                  onChange={onchangeHandler}
+                >
                   <option value="DEFAULT" disabled>
                     Choose currency
                   </option>
