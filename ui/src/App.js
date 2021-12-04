@@ -1,10 +1,10 @@
 import axios from "axios";
 import Container from "./components/Container";
 import Form from "./components/Form";
-import { useEffect } from "react";
+import { saveAs } from "file-saver";
 
 function App() {
-  const createAndDownloadInvoice = async (invoiceData) => {
+  const createAndDownloadInvoice = (invoiceData) => {
     const formData = new FormData();
 
     const {
@@ -17,11 +17,22 @@ function App() {
 
     formData.append("invoiceData", JSON.stringify(invoiceData));
 
-    const res = await axios.post("/create", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    axios
+      .post("/create", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(() => axios.get("/download", { responseType: "blob" }))
+      .then((res) => {
+        const invoicePdfBlob = new Blob([res.data], {
+          type: "application/pdf",
+        });
 
-    console.log(res.data);
+        const invoicePreviewUrl = URL.createObjectURL(invoicePdfBlob);
+
+        window.open(invoicePreviewUrl, "_blank");
+
+        saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
+      });
   };
 
   return (

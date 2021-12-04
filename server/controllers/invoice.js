@@ -39,12 +39,12 @@ export const createInvoice = (req, res) => {
 
     // Validate file extension
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
-      return res.send(Promise.reject("Unsupported file format"));
+      return res.json({ msg: "Unsupported file format" });
     }
 
     // Save file
     companyLogo.mv(pathToSaveFile, (err) => {
-      if (err) return res.status(500).send(Promise.reject(err));
+      if (err) return res.status(500).json(err);
     });
 
     // Update invoiceData - override company logo value
@@ -56,7 +56,7 @@ export const createInvoice = (req, res) => {
     `${publicTempDir}/invoice.html`,
     DefaultTemplate(invoiceData).trim(),
     (err) => {
-      if (err) return res.send(Promise.reject(err));
+      if (err) return res.json(err);
 
       const invoiceHtml = fs.readFileSync(
         `${publicTempDir}/invoice.html`,
@@ -66,14 +66,14 @@ export const createInvoice = (req, res) => {
       pdf
         .create(invoiceHtml, options)
         .toFile(`${publicTempDir}/invoice.pdf`, (err) => {
-          if (err) res.send(Promise.reject(err));
+          if (err) res.json(err);
 
-          res.send(Promise.resolve("CREATED"));
+          res.json({ msg: "Invoice created" });
         });
     }
   );
 };
 
 export const sendInvoice = (req, res) => {
-  res.sendFile(`${publicTempDir}/invoice.pdf`);
+  res.sendFile(`${__dirname}/${publicTempDir}/invoice.pdf`);
 };
