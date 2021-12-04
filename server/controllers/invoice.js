@@ -17,6 +17,8 @@ export const createInvoice = (req, res) => {
       height: "15mm",
       contents: "",
     },
+    width: "800px",
+    height: "15in",
     base: `file:///${__dirname}/public/temp/`,
     localUrlAccess: true,
     footer: {

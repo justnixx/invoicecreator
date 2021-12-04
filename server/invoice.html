@@ -1,49 +1,4 @@
-/***********************************
- *  DEFAULT TEMPLATE
- **********************************/
-import path from "path";
-
-const __dirname = path.resolve();
-
-export default function DefaultTemplate({
-  details: {
-    currency,
-    companyLogo,
-    companyName,
-    companyAddress,
-    invoiceNumber,
-    invoiceDate,
-    billingName,
-    billingAddress,
-    shippingName,
-    shippingAddress,
-  },
-  inputItems,
-}) {
-  const defaultLogo =
-    "https://cdn.iconscout.com/icon/free/png-256/logo-191-454937.png";
-
-  const imageSrc = companyLogo
-    ? `file://${__dirname}/public/temp/${companyLogo}`
-    : null;
-
-  let itemsPurchased = "";
-  let total = 0;
-
-  inputItems.forEach((item) => {
-    const amount = parseInt(item.quantity) * parseFloat(item.price);
-
-    itemsPurchased += `<tr>
-    <td>${item.quantity}</td>
-    <td>${item.description}</td>
-    <td>${currency}${item.price}</td>
-    <td>${currency}${amount.toFixed(2)}</td>
-  </tr>`;
-
-    total += amount;
-  });
-
-  return `<!doctype html>
+<!doctype html>
   <html>
     <head>
       <meta charset="utf-8" />
@@ -159,16 +114,16 @@ export default function DefaultTemplate({
               <th>
                 <img
                   class="logo"
-                  src="${imageSrc ? imageSrc : defaultLogo}"
+                  src='file:///Users/nixx/Desktop/workspace/lx-arena/invoicegenerator/server/public/temp/invoiceLogo.jpeg'
                   alt="Logo"
                 />
-                <h1>${companyName}</h1>
-                <p>${companyAddress.split("/").join("<br />")}</p>
+                <h1>Nixx</h1>
+                <p>123 Main stree, city or town, CA, Usa</p>
               </th>
               <th>
                 <h2>Invoice</h2>
-                <p>${invoiceNumber}</p>
-                <p>${invoiceDate}</p>
+                <p>1111</p>
+                <p>2021-12-04</p>
               </th>
             </tr>
           </thead>
@@ -176,13 +131,13 @@ export default function DefaultTemplate({
             <tr>
               <th>
                 <h2>Bill TO</h2>
-                <p>${billingName}</p>
-                <p>${billingAddress.split("/").join("<br />")}</p>
+                <p>Jane Doe</p>
+                <p>123 Main stree<br> city or town<br> CA<br> Usa</p>
               </th>
               <th>
                 <h2>Ship To</h2>
-                <p>${shippingName}</p>
-                <p>${shippingAddress.split("/").join("<br />")}</p>
+                <p>John Smith</p>
+                <p>123 Main stree<br> city or town<br> CA<br> Usa</p>
               </th>
             </tr>
           </thead>
@@ -197,7 +152,22 @@ export default function DefaultTemplate({
                 </tr>
               </thead>
               <tbody>
-               ${itemsPurchased}
+               <tr>
+    <td>1</td>
+    <td>Item one</td>
+    <td>€100</td>
+    <td>€100.00</td>
+  </tr><tr>
+    <td>2</td>
+    <td>Item two</td>
+    <td>€200</td>
+    <td>€400.00</td>
+  </tr><tr>
+    <td>3</td>
+    <td>Item three</td>
+    <td>€300</td>
+    <td>€900.00</td>
+  </tr>
               </tbody>
             </table>
           </tbody>
@@ -206,21 +176,18 @@ export default function DefaultTemplate({
           <div>
             <div>
               <p>
-              <strong>Sum:</strong> <span>${currency}${total.toFixed(2)}</span>
+              <strong>Sum:</strong> <span>€1400.00</span>
               </p>
               <p>
-              <strong>Total:</strong> <span>${currency}${total.toFixed(
-    2
-  )}</span>
+              <strong>Total:</strong> <span>€1400.00</span>
               </p>
             </div>
           </div>
           <div>
-            <p>${""}</p>
+            <p></p>
           </div>
         </footer>
       </div>
     </body>
   </html>
-  `;
-}
+  
