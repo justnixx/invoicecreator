@@ -24,11 +24,8 @@ export default function DefaultTemplate({
     "https://cdn.iconscout.com/icon/free/png-256/logo-191-454937.png";
 
   const imageSrc = companyLogo
-    ? path.normalize(`file:///${__dirname}/public/temp/${companyLogo}
-  `)
+    ? `file://${__dirname}/public/temp/${companyLogo}`
     : null;
-
-  console.log(imageSrc);
 
   let itemsPurchased = "";
   let total = 0;
@@ -162,7 +159,7 @@ export default function DefaultTemplate({
               <th>
                 <img
                   class="logo"
-                  src='${imageSrc ? imageSrc : defaultLogo}'
+                  src="${imageSrc ? imageSrc : defaultLogo}"
                   alt="Logo"
                 />
                 <h1>${companyName}</h1>

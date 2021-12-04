@@ -1,11 +1,12 @@
 import pdf from "html-pdf";
 import path from "path";
+import fs from "fs";
 
 import DefaultTemplate from "../invoices/index.js";
 
 const __dirname = path.resolve();
 
-const publicTempDir = "/public/temp";
+const publicTempDir = "public/temp";
 
 export const createInvoice = (req, res) => {
   const invoiceData = JSON.parse(req.body.invoiceData);
@@ -16,6 +17,8 @@ export const createInvoice = (req, res) => {
       height: "15mm",
       contents: "",
     },
+    base: `file:///${__dirname}/public/temp/`,
+    localUrlAccess: true,
     footer: {
       height: "15mm",
       contents:
@@ -27,11 +30,10 @@ export const createInvoice = (req, res) => {
 
   // Upload logo image
   if (req.files) {
-    console.log("Has file");
     const companyLogo = req.files.companyLogo;
     const allowedExtensions = [".png", ".jpg", ".jpeg"];
     const fileExtension = path.extname(companyLogo.name);
-    const pathToSaveFile = `${__dirname}${publicTempDir}/invoiceLogo${fileExtension}`;
+    const pathToSaveFile = `${publicTempDir}/invoiceLogo${fileExtension}`;
 
     // Validate file extension
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
@@ -48,15 +50,28 @@ export const createInvoice = (req, res) => {
   }
 
   // Create invoice and store it in the file system
-  pdf
-    .create(DefaultTemplate(invoiceData).trim(), options)
-    .toFile(`${__dirname}${publicTempDir}/invoice.pdf`, (err) => {
-      if (err) res.send(Promise.reject(err));
+  fs.writeFile(
+    `${publicTempDir}/invoice.html`,
+    DefaultTemplate(invoiceData).trim(),
+    (err) => {
+      if (err) return res.send(Promise.reject(err));
 
-      res.send(Promise.resolve("CREATED"));
-    });
+      const invoiceHtml = fs.readFileSync(
+        `${publicTempDir}/invoice.html`,
+        "utf8"
+      );
+
+      pdf
+        .create(invoiceHtml, options)
+        .toFile(`${publicTempDir}/invoice.pdf`, (err) => {
+          if (err) res.send(Promise.reject(err));
+
+          res.send(Promise.resolve("CREATED"));
+        });
+    }
+  );
 };
 
 export const sendInvoice = (req, res) => {
-  res.sendFile(`${__dirname}${publicTempDir}/invoice.pdf`);
+  res.sendFile(`${publicTempDir}/invoice.pdf`);
 };
