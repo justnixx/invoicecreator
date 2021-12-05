@@ -1,12 +1,19 @@
+import { useState } from "react";
+
 import axios from "axios";
 import Container from "./components/Container";
 import Form from "./components/Form";
 import { saveAs } from "file-saver";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Loading from "./components/Loading";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const createAndDownloadInvoice = (invoiceData) => {
+    setIsLoading(true);
+
     const formData = new FormData();
 
     const {
@@ -25,6 +32,8 @@ function App() {
       })
       .then(() => axios.get("/download", { responseType: "blob" }))
       .then((res) => {
+        setIsLoading(false);
+
         const invoicePdfBlob = new Blob([res.data], {
           type: "application/pdf",
         });
@@ -38,7 +47,8 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="app">
+      {isLoading && <Loading />}
       <Header />
       <Container>
         <Form onCreateAndDownloadInvoice={createAndDownloadInvoice} />
