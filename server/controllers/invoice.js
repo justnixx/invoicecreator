@@ -1,14 +1,14 @@
-import pdf from "html-pdf";
-import path from "path";
-import fs from "fs";
+const pdf = require("html-pdf");
+const fs = require("fs");
+const path = require("path");
 
-import DefaultTemplate from "../invoices/index.js";
-
-const __dirname = path.resolve();
+const DefaultTemplate = require("../invoices/index.js");
 
 const publicTempDir = "public/temp";
 
-export const createInvoice = (req, res) => {
+const rootDir = path.resolve(__dirname + "/../");
+
+module.exports = createInvoice = (req, res) => {
   const invoiceData = JSON.parse(req.body.invoiceData);
 
   // PDF options
@@ -18,8 +18,8 @@ export const createInvoice = (req, res) => {
       contents: "",
     },
     width: "800px",
-    height: "15in",
-    base: `file:///${__dirname}/public/temp/`,
+    height: "16.5in",
+    base: `file:///${rootDir}/${publicTempDir}/`,
     localUrlAccess: true,
     footer: {
       height: "15mm",
@@ -53,19 +53,19 @@ export const createInvoice = (req, res) => {
 
   // Create invoice and store it in the file system
   fs.writeFile(
-    `${publicTempDir}/invoice.html`,
+    `${rootDir}/${publicTempDir}/invoice.html`,
     DefaultTemplate(invoiceData).trim(),
     (err) => {
       if (err) return res.json(err);
 
       const invoiceHtml = fs.readFileSync(
-        `${publicTempDir}/invoice.html`,
+        `${rootDir}/${publicTempDir}/invoice.html`,
         "utf8"
       );
 
       pdf
         .create(invoiceHtml, options)
-        .toFile(`${publicTempDir}/invoice.pdf`, (err) => {
+        .toFile(`${rootDir}/${publicTempDir}/invoice.pdf`, (err) => {
           if (err) res.json(err);
 
           res.json({ msg: "Invoice created" });
@@ -74,6 +74,6 @@ export const createInvoice = (req, res) => {
   );
 };
 
-export const sendInvoice = (req, res) => {
-  res.sendFile(`${__dirname}/${publicTempDir}/invoice.pdf`);
+module.exports = sendInvoice = (req, res) => {
+  res.sendFile(`${rootDir}/${publicTempDir}/invoice.pdf`);
 };

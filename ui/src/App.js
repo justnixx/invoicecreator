@@ -42,7 +42,7 @@ function App() {
 
         window.open(invoicePreviewUrl, "_blank");
 
-        saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
+        // saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
       });
   };
 

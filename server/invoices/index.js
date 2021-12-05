@@ -1,11 +1,9 @@
 /***********************************
  *  DEFAULT TEMPLATE
  **********************************/
-import path from "path";
+const path = require("path");
 
-const __dirname = path.resolve();
-
-export default function DefaultTemplate({
+module.exports = DefaultTemplate = ({
   details: {
     currency,
     companyLogo,
@@ -19,9 +17,8 @@ export default function DefaultTemplate({
     shippingAddress,
   },
   inputItems,
-}) {
-  const defaultLogo =
-    "https://cdn.iconscout.com/icon/free/png-256/logo-191-454937.png";
+}) => {
+  const defaultLogo = "https://invoicecreator.nixx.dev/default.png";
 
   const imageSrc = companyLogo
     ? `file://${__dirname}/public/temp/${companyLogo}`
@@ -223,4 +220,4 @@ export default function DefaultTemplate({
     </body>
   </html>
   `;
-}
+};

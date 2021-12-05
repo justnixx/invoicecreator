@@ -1,8 +1,9 @@
-import express from "express";
-import cors from "cors";
-import fileUpload from "express-fileupload";
+const express = require("express");
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
-import { createInvoice, sendInvoice } from "./controllers/invoice.js";
+const createInvoice = require("./controllers/invoice.js"),
+  sendInvoice = require("./controllers/invoice.js");
 
 // Initialize express
 const app = express();
