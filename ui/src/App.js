@@ -2,6 +2,8 @@ import axios from "axios";
 import Container from "./components/Container";
 import Form from "./components/Form";
 import { saveAs } from "file-saver";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   const createAndDownloadInvoice = (invoiceData) => {
@@ -37,9 +39,11 @@ function App() {
 
   return (
     <div>
+      <Header />
       <Container>
         <Form onCreateAndDownloadInvoice={createAndDownloadInvoice} />
       </Container>
+      <Footer />
     </div>
   );
 }

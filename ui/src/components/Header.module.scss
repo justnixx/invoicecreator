@@ -1,0 +1,31 @@
+header {
+  background-color: #e619a1;
+  position: relative;
+  min-height: 70px;
+  padding: 15px 0;
+
+  h1 {
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 4rem;
+    margin-bottom: 30px;
+  }
+
+  svg {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    @media screen and (max-width: 586px) {
+      top: 126px;
+    }
+
+    @media screen and (max-width: 400px) {
+      top: 186px;
+    }
+  }
+}
