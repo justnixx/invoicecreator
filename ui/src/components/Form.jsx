@@ -12,7 +12,7 @@ function Form(props) {
       currency: "",
       companyName: "",
       companyAddress: "",
-      invoiceNumber: "",
+      invoiceNumber: "10001",
       invoiceDate: "",
       billingName: "",
       billingAddress: "",

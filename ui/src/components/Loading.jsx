@@ -20,7 +20,7 @@ function Loading() {
       >
         <g transform="translate(80,50)">
           <g transform="rotate(0)">
-            <circle cx="0" cy="0" r="6" fill="#e619a1" fill-opacity="1">
+            <circle cx="0" cy="0" r="6" fill="#e619a1" fillOpacity="1">
               <animateTransform
                 attributeName="transform"
                 type="scale"

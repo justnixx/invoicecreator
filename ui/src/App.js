@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import axios from "axios";
+import axiosInstance from "./helpers/axios";
 import Container from "./components/Container";
 import Form from "./components/Form";
 import { saveAs } from "file-saver";
@@ -26,11 +26,11 @@ function App() {
 
     formData.append("invoiceData", JSON.stringify(invoiceData));
 
-    axios
+    axiosInstance
       .post("/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      .then(() => axios.get("/download", { responseType: "blob" }))
+      .then(() => axiosInstance.get("/download", { responseType: "blob" }))
       .then((res) => {
         setIsLoading(false);
 

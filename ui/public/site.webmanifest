@@ -1,0 +1,19 @@
+{
+    "name": "Invoice Creator",
+    "short_name": "Invoice Creator",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#e619a1",
+    "background_color": "#e619a1",
+    "display": "standalone"
+}
