@@ -8,7 +8,7 @@ const publicTempDir = "public/temp";
 
 const rootDir = path.resolve(__dirname + "/../");
 
-module.exports = createInvoice = (req, res) => {
+const createInvoice = (req, res) => {
   const invoiceData = JSON.parse(req.body.invoiceData);
 
   // PDF options
@@ -53,13 +53,13 @@ module.exports = createInvoice = (req, res) => {
 
   // Create invoice and store it in the file system
   fs.writeFile(
-    `${rootDir}/${publicTempDir}/invoice.html`,
+    `${publicTempDir}/invoice.html`,
     DefaultTemplate(invoiceData).trim(),
     (err) => {
       if (err) return res.json(err);
 
       const invoiceHtml = fs.readFileSync(
-        `${rootDir}/${publicTempDir}/invoice.html`,
+        `${publicTempDir}/invoice.html`,
         "utf8"
       );
 
@@ -74,6 +74,8 @@ module.exports = createInvoice = (req, res) => {
   );
 };
 
-module.exports = sendInvoice = (req, res) => {
+const sendInvoice = (req, res) => {
   res.sendFile(`${rootDir}/${publicTempDir}/invoice.pdf`);
 };
+
+module.exports = { createInvoice, sendInvoice };

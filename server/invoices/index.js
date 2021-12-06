@@ -3,6 +3,8 @@
  **********************************/
 const path = require("path");
 
+const rootDir = path.resolve(__dirname + "/../");
+
 module.exports = DefaultTemplate = ({
   details: {
     currency,
@@ -21,7 +23,7 @@ module.exports = DefaultTemplate = ({
   const defaultLogo = "https://invoicecreator.nixx.dev/default.png";
 
   const imageSrc = companyLogo
-    ? `file://${__dirname}/public/temp/${companyLogo}`
+    ? `file://${rootDir}/public/temp/${companyLogo}`
     : null;
 
   let itemsPurchased = "";

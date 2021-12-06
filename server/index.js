@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
+const bodyParser = require("body-parser");
 
-const createInvoice = require("./controllers/invoice.js"),
-  sendInvoice = require("./controllers/invoice.js");
+const invoice = require("./controllers/invoice.js");
 
 // Initialize express
 const app = express();
@@ -14,6 +14,8 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   fileUpload({
     createParentPath: true,
@@ -23,9 +25,9 @@ app.use(
 );
 
 // Routes
-app.post("/create", createInvoice);
+app.post("/create", invoice.createInvoice);
 
-app.get("/download", sendInvoice);
+app.get("/download", invoice.sendInvoice);
 
 // Start server
 app.listen(PORT, () => `Server started on http://localhost:${PORT}`);
