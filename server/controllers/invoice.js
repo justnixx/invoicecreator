@@ -2,7 +2,7 @@ const pdf = require('html-pdf');
 const fs = require('fs');
 const path = require('path');
 
-const DefaultTemplate = require('../invoices/');
+const DefaultTemplate = require('../invoices/index.js');
 
 const publicTempDir = 'public/temp';
 

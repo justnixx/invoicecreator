@@ -21,7 +21,6 @@ Thumbs.db
 ######################
 node_modules/
 .cache/
-server/public/temp/
 
 # Other files #
 ######################

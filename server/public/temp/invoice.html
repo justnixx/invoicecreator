@@ -1,50 +1,4 @@
-require('dotenv').config();
-
-/***********************************
- *  DEFAULT TEMPLATE
- **********************************/
-const path = require('path');
-const { moneyFormat } = require('../utils/index.js');
-const rootDir = path.resolve(__dirname + '/../');
-
-module.exports = DefaultTemplate = ({
-  details: {
-    currency,
-    companyLogo,
-    companyName,
-    companyAddress,
-    invoiceNumber,
-    invoiceDate,
-    billingName,
-    billingAddress,
-    shippingName,
-    shippingAddress,
-  },
-  lineItems,
-}) => {
-  const defaultLogo = process.env.DEFAULT_LOGO_URI;
-
-  const imageSrc = companyLogo
-    ? `file://${rootDir}/public/temp/${companyLogo}`
-    : null;
-
-  let itemsPurchased = '';
-  let total = 0;
-
-  lineItems.forEach((item) => {
-    const amount = Number(parseInt(item.quantity) * parseFloat(item.price));
-
-    itemsPurchased += `<tr>
-    <td>${item.quantity}</td>
-    <td>${item.description}</td>
-    <td>${moneyFormat(currency, item.price)}</td>
-    <td><b>${moneyFormat(currency, amount)}</b></td>
-  </tr>`;
-
-    total += amount;
-  });
-
-  return `<!doctype html>
+<!doctype html>
   <html>
     <head>
       <meta charset="utf-8" />
@@ -160,16 +114,16 @@ module.exports = DefaultTemplate = ({
               <th>
                 <img
                   class="logo"
-                  src="${imageSrc ? imageSrc : defaultLogo}"
+                  src="https://invoicecreator.nixx.dev/default.png"
                   alt="Logo"
                 />
-                <h1>${companyName}</h1>
-                <p>${companyAddress.split('/').join('<br />')}</p>
+                <h1></h1>
+                <p></p>
               </th>
               <th>
                 <h2>Invoice</h2>
-                <p>${invoiceNumber}</p>
-                <p>${invoiceDate}</p>
+                <p>3797</p>
+                <p></p>
               </th>
             </tr>
           </thead>
@@ -177,13 +131,13 @@ module.exports = DefaultTemplate = ({
             <tr>
               <th>
                 <h2>Bill TO</h2>
-                <p>${billingName}</p>
-                <p>${billingAddress.split('/').join('<br />')}</p>
+                <p></p>
+                <p></p>
               </th>
               <th>
                 <h2>Ship To</h2>
-                <p>${shippingName}</p>
-                <p>${shippingAddress.split('/').join('<br />')}</p>
+                <p></p>
+                <p></p>
               </th>
             </tr>
           </thead>
@@ -198,7 +152,57 @@ module.exports = DefaultTemplate = ({
                 </tr>
               </thead>
               <tbody>
-               ${itemsPurchased}
+               <tr>
+    <td>5</td>
+    <td>Test</td>
+    <td>100</td>
+    <td><b>NGN 500.00</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td>3</td>
+    <td>Test 3</td>
+    <td>222</td>
+    <td><b>NGN 666.00</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr><tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><b>NGNNaN</b></td>
+  </tr>
               </tbody>
             </table>
           </tbody>
@@ -207,19 +211,17 @@ module.exports = DefaultTemplate = ({
           <div>
             <div>
               <p>
-              <strong>Sum:</strong> <b>${moneyFormat(currency, total)}</b>
+              <strong>Sum:</strong> <b>NGNNaN</b>
               </p>
               <p>
-              <strong>Total:</strong> <b>${moneyFormat(currency, total)}</b>
+              <strong>Total:</strong> <b>NGNNaN</b>
               </p>
             </div>
           </div>
           <div>
-            <p>${''}</p>
+            <p></p>
           </div>
         </footer>
       </div>
     </body>
   </html>
-  `;
-};

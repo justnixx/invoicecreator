@@ -3,7 +3,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 
-const routes = require('./routes/web');
+const routes = require('./routes/web.js');
 
 // Init express
 const app = express();
