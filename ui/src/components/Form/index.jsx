@@ -51,6 +51,7 @@ export default function Form({ onSubmit }) {
   // Removes a line item
   const removeLineItem = (index) => {
     const lineItems = [...invoiceData.lineItems];
+    if (lineItems.length === 1) return;
     lineItems.splice(index, 1);
     setInvoiceData((prevState) => ({ ...prevState, lineItems }));
   };
@@ -79,6 +80,8 @@ export default function Form({ onSubmit }) {
   // Submits invoice data
   const handleOnSubmit = (e) => {
     e.preventDefault();
+
+    // TODO: validate
 
     onSubmit(invoiceData);
   };

@@ -10,9 +10,8 @@
     border-radius: 4px;
 
     legend {
-      font-weight: bold;
+      font-weight: 400;
       text-transform: uppercase;
-      margin-bottom: 8px;
     }
   }
 
@@ -31,6 +30,7 @@
     align-items: center;
 
     & > div {
+      margin-top: 15px;
       width: 100%;
       position: relative;
 
@@ -60,7 +60,7 @@
       display: block;
       width: 100%;
 
-      &[type="date"] {
+      &[type='date'] {
         ::-webkit-calendar-picker-indicator {
           -webkit-filter: invert(100%);
           filter: invert(100%);
@@ -75,9 +75,10 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       cursor: pointer;
-      margin-bottom: 0;
+      font-weight: 400;
+      margin-top: 30px;
 
-      input[type="file"] {
+      input[type='file'] {
         display: none;
         position: absolute;
       }
@@ -94,7 +95,12 @@
   }
 
   label {
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  input::placeholder {
+    color: #ffffff;
   }
 
   input,
@@ -120,8 +126,9 @@
   button {
     display: inline-block;
     background-color: #e619a1;
-    border-color: #e619a1;
-    border: 0;
+    border: none;
+    font-weight: 700;
+    font-size: 20px;
   }
 
   .invoice_items {
@@ -159,7 +166,6 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         cursor: pointer;
-        font-size: 20px;
       }
 
       @media screen and (max-width: 600px) {
@@ -186,16 +192,17 @@
 
   & > button {
     float: right;
-    font-size: 20px;
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition: all 0.4s;
     text-transform: uppercase;
+    padding: 24px;
+    border-radius: 12px;
 
     &:hover {
-      -webkit-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-      transform: scale(0.9);
+      -webkit-transform: scale(0.98);
+      -ms-transform: scale(0.98);
+      transform: scale(0.98);
       -webkit-box-shadow: 0 3px 4px 2px rgba(0, 0, 0, 0.1);
       box-shadow: 0 3px 4px 2px rgba(0, 0, 0, 0.1);
     }
@@ -207,7 +214,7 @@
 
   &::after {
     display: table;
-    content: "";
+    content: '';
     clear: both;
   }
 }

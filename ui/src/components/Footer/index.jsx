@@ -6,18 +6,14 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <Container>
-        <p>&copy;{new Date().getFullYear()}</p>
-        <ul>
-          <li>
-            <a href="/">About</a>
-          </li>
-          <li>
-            <a href="/">Privacy Policy</a>
-          </li>
-          <li>
-            <a href="/">T&C</a>
-          </li>
-        </ul>
+        <p>&copy; {new Date().getFullYear()}</p>
+        <a
+          target="_blank"
+          title="justnixx/invoicecreator"
+          href={import.meta.env.VITE_GitHub_Repo}
+        >
+          <small>View Source Code</small>
+        </a>
       </Container>
       <svg viewBox="0 0 1440 320">
         <path
