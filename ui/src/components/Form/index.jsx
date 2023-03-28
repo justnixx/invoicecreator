@@ -8,18 +8,18 @@ export default function Form({ onSubmit }) {
   const [invoiceData, setInvoiceData] = useState({
     details: {
       companyLogo: '',
-      companyLogoTemp: '',
+      compTempLogo: '',
       currency: '',
       companyName: '',
       companyAddress: '',
-      invoiceNumber: '10001',
+      invoiceNumber: Math.floor(Math.random() * (9999 - 1000) + 1000),
       invoiceDate: '',
       billingName: '',
       billingAddress: '',
       shippingName: '',
       shippingAddress: '',
     },
-    inputItems: [{ quantity: '', description: '', price: '' }],
+    lineItems: [{ quantity: '', description: '', price: '' }],
   });
 
   // Supported currencies
@@ -30,62 +30,62 @@ export default function Form({ onSubmit }) {
     { code: 'NGN', name: 'Naira', symbol: '₦', country: 'United States' },
   ];
 
-  // Stores maximum number of item input fields allowed
-  const ITEM_MAX_COUNT = 6;
+  const ITEM_MAX_COUNT = 10; // maximum number of line items allowed
 
-  // Stores the current logo in the state
+  // Destructure the current logo in the state
   const {
-    details: { companyLogoTemp },
+    details: { compTempLogo },
   } = invoiceData;
 
-  // Adds new item input fields
-  const addItem = () => {
+  // Adds a new line item
+  const addLineItem = () => {
     setInvoiceData((prevState) => ({
       ...prevState,
-      inputItems: [
-        ...invoiceData.inputItems,
+      lineItems: [
+        ...invoiceData.lineItems,
         { quantity: '', description: '', price: '' },
       ],
     }));
   };
 
-  // Removes item input fields at a given index
-  const removeItem = (index) => {
-    const inputItems = [...invoiceData.inputItems];
-    inputItems.splice(index, 1);
-    setInvoiceData((prevState) => ({ ...prevState, inputItems }));
+  // Removes a line item
+  const removeLineItem = (index) => {
+    const lineItems = [...invoiceData.lineItems];
+    lineItems.splice(index, 1);
+    setInvoiceData((prevState) => ({ ...prevState, lineItems }));
   };
 
   // Handles onchange event on input fields
-  const onchangeHandler = ({ target: { name, value, files } }, index) => {
+  const handleOnchange = ({ target: { name, value, files } }, index) => {
     const details = { ...invoiceData.details };
-    const inputItems = [...invoiceData.inputItems];
+    const lineItems = [...invoiceData.lineItems];
 
     if (details.hasOwnProperty(name)) {
       if (files) {
         const [file] = files;
         const tempFileUrl = URL.createObjectURL(file);
         details[name] = file;
-        details['companyLogoTemp'] = tempFileUrl;
+        details['compTempLogo'] = tempFileUrl;
       } else {
         details[name] = value;
       }
     } else {
-      inputItems[index][name] = value;
+      lineItems[index][name] = value;
     }
 
-    setInvoiceData((prevState) => ({ ...prevState, details, inputItems }));
+    setInvoiceData((prevState) => ({ ...prevState, details, lineItems }));
   };
 
-  // Send invoice data to the backend
-  const submitHandler = (event) => {
-    event.preventDefault();
+  // Submits invoice data
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
     onSubmit(invoiceData);
   };
 
   return (
     <Card>
-      <form method="POST" className={styles.form} onSubmit={submitHandler}>
+      <form method="POST" className={styles.form} onSubmit={handleOnSubmit}>
         <Grid>
           <div className={styles.invoice_details}>
             <h2>Invoice Details</h2>
@@ -103,7 +103,7 @@ export default function Form({ onSubmit }) {
                     defaultValue="DEFAULT"
                     id="currency"
                     name="currency"
-                    onChange={onchangeHandler}
+                    onChange={handleOnchange}
                   >
                     <option value="DEFAULT" disabled>
                       Choose currency
@@ -116,10 +116,10 @@ export default function Form({ onSubmit }) {
                   </select>
                 </div>
                 <div>
-                  {companyLogoTemp && (
+                  {compTempLogo && (
                     <img
                       className={styles.company_logo}
-                      src={companyLogoTemp}
+                      src={compTempLogo}
                       alt="Company logo"
                     />
                   )}
@@ -132,11 +132,9 @@ export default function Form({ onSubmit }) {
                       id="companyLogo"
                       name="companyLogo"
                       accept="image/*"
-                      onChange={onchangeHandler}
+                      onChange={handleOnchange}
                     />
-                    {companyLogoTemp
-                      ? 'Choose a different logo'
-                      : 'Upload a logo'}
+                    {compTempLogo ? 'Choose a different logo' : 'Upload a logo'}
                   </label>
                 </div>
               </div>
@@ -149,7 +147,7 @@ export default function Form({ onSubmit }) {
                     name="companyName"
                     placeholder="Company name"
                     value={invoiceData.details.companyName}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
                 <div>
@@ -160,7 +158,7 @@ export default function Form({ onSubmit }) {
                     name="companyAddress"
                     placeholder="Company address"
                     value={invoiceData.details.companyAddress}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
               </div>
@@ -176,7 +174,7 @@ export default function Form({ onSubmit }) {
                     name="invoiceNumber"
                     placeholder="Invoice number"
                     value={invoiceData.details.invoiceNumber}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
                 <div>
@@ -187,7 +185,7 @@ export default function Form({ onSubmit }) {
                     name="invoiceDate"
                     placeholder="Invoice date"
                     value={invoiceData.details.invoiceDate}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
               </div>
@@ -203,7 +201,7 @@ export default function Form({ onSubmit }) {
                     name="billingName"
                     placeholder="Customer name"
                     value={invoiceData.details.billingName}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
                 <div>
@@ -214,7 +212,7 @@ export default function Form({ onSubmit }) {
                     name="billingAddress"
                     placeholder="Customer address"
                     value={invoiceData.details.billingAddress}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
               </div>
@@ -230,7 +228,7 @@ export default function Form({ onSubmit }) {
                     name="shippingName"
                     placeholder="Receiver name"
                     value={invoiceData.details.shippingName}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
                 <div>
@@ -241,15 +239,16 @@ export default function Form({ onSubmit }) {
                     name="shippingAddress"
                     placeholder="Receiver address"
                     value={invoiceData.details.shippingAddress}
-                    onChange={(e) => onchangeHandler(e)}
+                    onChange={handleOnchange}
                   />
                 </div>
               </div>
             </fieldset>
           </div>
           <div className={styles.invoice_items}>
-            <h2>Items</h2>
-            {invoiceData.inputItems.map((item, index) => (
+            <h2>Line Items</h2>
+            {/* Render Line Items */}
+            {invoiceData.lineItems.map((item, index) => (
               <div key={index} className={styles.item}>
                 <input
                   type="number"
@@ -257,14 +256,14 @@ export default function Form({ onSubmit }) {
                   name="quantity"
                   placeholder="Quantity"
                   value={item.quantity}
-                  onChange={(e) => onchangeHandler(e, index)}
+                  onChange={(e) => handleOnchange(e, index)}
                 />
                 <input
                   type="text"
                   name="description"
                   placeholder="Description"
                   value={item.description}
-                  onChange={(e) => onchangeHandler(e, index)}
+                  onChange={(e) => handleOnchange(e, index)}
                 />
                 <input
                   type="number"
@@ -273,20 +272,20 @@ export default function Form({ onSubmit }) {
                   name="price"
                   placeholder="Price"
                   value={item.price}
-                  onChange={(e) => onchangeHandler(e, index)}
+                  onChange={(e) => handleOnchange(e, index)}
                 />
                 <button
                   type="button"
                   onClick={() => {
-                    removeItem(index);
+                    removeLineItem(index);
                   }}
                 >
                   -
                 </button>
               </div>
             ))}
-            {invoiceData.inputItems.length < ITEM_MAX_COUNT && (
-              <button type="button" onClick={addItem}>
+            {invoiceData.lineItems.length < ITEM_MAX_COUNT && (
+              <button type="button" onClick={addLineItem}>
                 Add item +
               </button>
             )}
