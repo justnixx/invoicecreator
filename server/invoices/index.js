@@ -1,9 +1,11 @@
+require('dotenv').config();
+
 /***********************************
  *  DEFAULT TEMPLATE
  **********************************/
-const path = require("path");
-
-const rootDir = path.resolve(__dirname + "/../");
+const path = require('path');
+const { moneyFormat } = require('../utils');
+const rootDir = path.resolve(__dirname + '/../');
 
 module.exports = DefaultTemplate = ({
   details: {
@@ -18,25 +20,25 @@ module.exports = DefaultTemplate = ({
     shippingName,
     shippingAddress,
   },
-  inputItems,
+  lineItems,
 }) => {
-  const defaultLogo = "https://invoicecreator.nixx.dev/default.png";
+  const defaultLogo = process.env.DEFAULT_LOGO_URI;
 
   const imageSrc = companyLogo
     ? `file://${rootDir}/public/temp/${companyLogo}`
     : null;
 
-  let itemsPurchased = "";
+  let itemsPurchased = '';
   let total = 0;
 
-  inputItems.forEach((item) => {
-    const amount = parseInt(item.quantity) * parseFloat(item.price);
+  lineItems.forEach((item) => {
+    const amount = Number(parseInt(item.quantity) * parseFloat(item.price));
 
     itemsPurchased += `<tr>
     <td>${item.quantity}</td>
     <td>${item.description}</td>
-    <td>${currency}${item.price}</td>
-    <td>${currency}${amount.toFixed(2)}</td>
+    <td>${moneyFormat(currency, item.price)}</td>
+    <td><b>${moneyFormat(currency, amount)}</b></td>
   </tr>`;
 
     total += amount;
@@ -162,7 +164,7 @@ module.exports = DefaultTemplate = ({
                   alt="Logo"
                 />
                 <h1>${companyName}</h1>
-                <p>${companyAddress.split("/").join("<br />")}</p>
+                <p>${companyAddress.split('/').join('<br />')}</p>
               </th>
               <th>
                 <h2>Invoice</h2>
@@ -176,12 +178,12 @@ module.exports = DefaultTemplate = ({
               <th>
                 <h2>Bill TO</h2>
                 <p>${billingName}</p>
-                <p>${billingAddress.split("/").join("<br />")}</p>
+                <p>${billingAddress.split('/').join('<br />')}</p>
               </th>
               <th>
                 <h2>Ship To</h2>
                 <p>${shippingName}</p>
-                <p>${shippingAddress.split("/").join("<br />")}</p>
+                <p>${shippingAddress.split('/').join('<br />')}</p>
               </th>
             </tr>
           </thead>
@@ -205,17 +207,15 @@ module.exports = DefaultTemplate = ({
           <div>
             <div>
               <p>
-              <strong>Sum:</strong> <span>${currency}${total.toFixed(2)}</span>
+              <strong>Sum:</strong> <b>${moneyFormat(currency, total)}</b>
               </p>
               <p>
-              <strong>Total:</strong> <span>${currency}${total.toFixed(
-    2
-  )}</span>
+              <strong>Total:</strong> <b>${moneyFormat(currency, total)}</b>
               </p>
             </div>
           </div>
           <div>
-            <p>${""}</p>
+            <p>${''}</p>
           </div>
         </footer>
       </div>

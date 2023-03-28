@@ -1,45 +1,47 @@
-const pdf = require("html-pdf");
-const fs = require("fs");
-const path = require("path");
+const pdf = require('html-pdf');
+const fs = require('fs');
+const path = require('path');
 
-const DefaultTemplate = require("../invoices/index.js");
+const DefaultTemplate = require('../invoices/');
 
-const publicTempDir = "public/temp";
+const publicTempDir = 'public/temp';
 
-const rootDir = path.resolve(__dirname + "/../");
+const rootDir = path.resolve(__dirname + '/../');
 
 const createInvoice = (req, res) => {
   const invoiceData = JSON.parse(req.body.invoiceData);
 
+  // TODO: validate
+
   // PDF options
   const options = {
     header: {
-      height: "15mm",
-      contents: "",
+      height: '15mm',
+      contents: '',
     },
-    width: "800px",
-    height: "16.5in",
+    width: '800px',
+    height: '16.5in',
     base: `file:///${rootDir}/${publicTempDir}/`,
     localUrlAccess: true,
     footer: {
-      height: "15mm",
+      height: '15mm',
       contents:
         "<p style='text-align:center;margin-top:10px;'>" +
-        Buffer.from("UG93ZXJlZCBieSBuaXh4LmRldg==", "base64").toString("utf8") +
-        "</p>",
+        Buffer.from('Q3JlYXRlZCBBdDogbml4eC5kZXY=', 'base64').toString('utf8') +
+        '</p>',
     },
   };
 
   // Upload logo image
   if (req.files) {
     const companyLogo = req.files.companyLogo;
-    const allowedExtensions = [".png", ".jpg", ".jpeg"];
+    const allowedExtensions = ['.png', '.jpg', '.jpeg'];
     const fileExtension = path.extname(companyLogo.name);
     const pathToSaveFile = `${publicTempDir}/invoiceLogo${fileExtension}`;
 
     // Validate file extension
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
-      return res.json({ msg: "Unsupported file format" });
+      return res.json({ msg: 'Unsupported file format' });
     }
 
     // Save file
@@ -60,7 +62,7 @@ const createInvoice = (req, res) => {
 
       const invoiceHtml = fs.readFileSync(
         `${publicTempDir}/invoice.html`,
-        "utf8"
+        'utf8'
       );
 
       pdf
@@ -68,7 +70,7 @@ const createInvoice = (req, res) => {
         .toFile(`${rootDir}/${publicTempDir}/invoice.pdf`, (err) => {
           if (err) res.json(err);
 
-          res.json({ msg: "Invoice created" });
+          res.json({ msg: 'Invoice created' });
         });
     }
   );

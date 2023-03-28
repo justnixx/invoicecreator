@@ -1,11 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const fileUpload = require("express-fileupload");
-const bodyParser = require("body-parser");
+const express = require('express');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 
-const invoice = require("./controllers/invoice.js");
+const routes = require('./routes/web');
 
-// Initialize express
+// Init express
 const app = express();
 
 // Stores server port number
@@ -24,10 +24,26 @@ app.use(
   })
 );
 
-// Routes
-app.post("/create", invoice.createInvoice);
+// Init routes
+app.use('/', routes);
 
-app.get("/download", invoice.sendInvoice);
+// Catch-all middleware for unmatched routes
+app.use((req, res, next) => {
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+
+  res.json({
+    error: {
+      message: err.message,
+    },
+  });
+});
 
 // Start server
 app.listen(PORT, () => `Server started on http://localhost:${PORT}`);

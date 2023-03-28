@@ -112,7 +112,7 @@ export default function Form({ onSubmit }) {
                       Choose currency
                     </option>
                     {currencies.map((currency, index) => (
-                      <option key={index} value={currency.symbol}>
+                      <option key={index} value={currency.code}>
                         {currency.name} {`(${currency.symbol})`}
                       </option>
                     ))}

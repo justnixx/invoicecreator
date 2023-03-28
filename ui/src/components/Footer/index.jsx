@@ -10,7 +10,7 @@ export default function Footer() {
         <a
           target="_blank"
           title="justnixx/invoicecreator"
-          href={import.meta.env.VITE_GitHub_Repo}
+          href={import.meta.env.VITE_GITHUB_REPO}
         >
           <small>View Source Code</small>
         </a>
