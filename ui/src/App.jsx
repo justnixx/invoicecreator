@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import axiosInstance from "./helpers/axios";
-import Container from "./components/Container";
-import Form from "./components/Form";
-import { saveAs } from "file-saver";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Loading from "./components/Loading";
+import axiosInstance from './helpers/axios';
+import Container from './components/Container';
+import Form from './components/Form';
+import { saveAs } from 'file-saver';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Loading from './components/Loading';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,27 +20,27 @@ function App() {
       details: { companyLogo },
     } = invoiceData;
 
-    formData.append("companyLogo", companyLogo);
+    formData.append('companyLogo', companyLogo);
 
-    invoiceData.details.companyLogo = "";
+    invoiceData.details.companyLogo = '';
 
-    formData.append("invoiceData", JSON.stringify(invoiceData));
+    formData.append('invoiceData', JSON.stringify(invoiceData));
 
     axiosInstance
-      .post("/create", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      .post('/create', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
-      .then(() => axiosInstance.get("/download", { responseType: "blob" }))
+      .then(() => axiosInstance.get('/download', { responseType: 'blob' }))
       .then((res) => {
         setIsLoading(false);
 
         const invoicePdfBlob = new Blob([res.data], {
-          type: "application/pdf",
+          type: 'application/pdf',
         });
 
         const invoicePreviewUrl = URL.createObjectURL(invoicePdfBlob);
 
-        window.open(invoicePreviewUrl, "_blank");
+        window.open(invoicePreviewUrl, '_blank');
 
         saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
       });
