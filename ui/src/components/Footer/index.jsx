@@ -1,10 +1,10 @@
-import Container from "./Container";
+import Container from '../Container';
 
-import style from "./Footer.module.scss";
+import styles from './footer.module.scss';
 
-function Footer() {
+export default function Footer() {
   return (
-    <footer className={style.footer}>
+    <footer className={styles.footer}>
       <Container>
         <p>&copy;{new Date().getFullYear()}</p>
         <ul>
@@ -29,4 +29,3 @@ function Footer() {
     </footer>
   );
 }
-export default Footer;

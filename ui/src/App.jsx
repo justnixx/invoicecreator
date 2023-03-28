@@ -1,18 +1,17 @@
 import { useState } from 'react';
-
 import axiosInstance from './helpers/axios';
 import Container from './components/Container';
 import Form from './components/Form';
 import { saveAs } from 'file-saver';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Loading from './components/Loading';
+import Loader from './components/Loader';
 
-function App() {
-  const [isLoading, setIsLoading] = useState(false);
+export default function App() {
+  const [loading, setLoading] = useState(false);
 
-  const createAndDownloadInvoice = (invoiceData) => {
-    setIsLoading(true);
+  const handleFormSubmission = async (invoiceData) => {
+    setLoading(true);
 
     const formData = new FormData();
 
@@ -26,36 +25,39 @@ function App() {
 
     formData.append('invoiceData', JSON.stringify(invoiceData));
 
-    axiosInstance
-      .post('/create', formData, {
+    try {
+      const postResponse = await axiosInstance.post('/create', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-      })
-      .then(() => axiosInstance.get('/download', { responseType: 'blob' }))
-      .then((res) => {
-        setIsLoading(false);
-
-        const invoicePdfBlob = new Blob([res.data], {
-          type: 'application/pdf',
-        });
-
-        const invoicePreviewUrl = URL.createObjectURL(invoicePdfBlob);
-
-        window.open(invoicePreviewUrl, '_blank');
-
-        saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
       });
+
+      const getResponse = await axiosInstance.get('/download', {
+        responseType: 'blob',
+      });
+
+      setLoading(false);
+
+      const invoicePdfBlob = new Blob([getResponse.data], {
+        type: 'application/pdf',
+      });
+
+      const invoicePreviewUrl = URL.createObjectURL(invoicePdfBlob);
+
+      window.open(invoicePreviewUrl, '_blank');
+
+      saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
+    } catch (e) {
+      console.error('Error:', e);
+    }
   };
 
   return (
     <div className="app">
-      {isLoading && <Loading />}
+      {loading && <Loader />}
       <Header />
       <Container>
-        <Form onCreateAndDownloadInvoice={createAndDownloadInvoice} />
+        <Form onSubmit={handleFormSubmission} />
       </Container>
       <Footer />
     </div>
   );
 }
-
-export default App;

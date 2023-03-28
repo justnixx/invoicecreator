@@ -1,9 +1,9 @@
-import Container from "./Container";
-import style from "./Header.module.scss";
+import Container from '../Container';
+import styles from './header.module.scss';
 
-function Header() {
+export default function Header() {
   return (
-    <header className={style.header}>
+    <header className={styles.header}>
       <Container>
         <h1>Invoice Creator</h1>
       </Container>
@@ -17,4 +17,3 @@ function Header() {
     </header>
   );
 }
-export default Header;

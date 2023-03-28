@@ -1,33 +1,33 @@
-import { useState } from "react";
-import Card from "./Card";
-import style from "./Form.module.scss";
-import Grid from "./Grid";
+import { useState } from 'react';
+import Card from '../Card';
+import styles from './form.module.scss';
+import Grid from '../Grid';
 
-function Form(props) {
+export default function Form({ onSubmit }) {
   // Form state
   const [invoiceData, setInvoiceData] = useState({
     details: {
-      companyLogo: "",
-      companyLogoTemp: "",
-      currency: "",
-      companyName: "",
-      companyAddress: "",
-      invoiceNumber: "10001",
-      invoiceDate: "",
-      billingName: "",
-      billingAddress: "",
-      shippingName: "",
-      shippingAddress: "",
+      companyLogo: '',
+      companyLogoTemp: '',
+      currency: '',
+      companyName: '',
+      companyAddress: '',
+      invoiceNumber: '10001',
+      invoiceDate: '',
+      billingName: '',
+      billingAddress: '',
+      shippingName: '',
+      shippingAddress: '',
     },
-    inputItems: [{ quantity: "", description: "", price: "" }],
+    inputItems: [{ quantity: '', description: '', price: '' }],
   });
 
   // Supported currencies
   const currencies = [
-    { code: "USD", name: "Dollar", symbol: "$", country: "United States" },
-    { code: "GBP", name: "Pound", symbol: "£", country: "United Kingdom" },
-    { code: "EUR", name: "Euro", symbol: "€", country: "Euro Member" },
-    { code: "NGN", name: "Naira", symbol: "₦", country: "United States" },
+    { code: 'USD', name: 'Dollar', symbol: '$', country: 'United States' },
+    { code: 'GBP', name: 'Pound', symbol: '£', country: 'United Kingdom' },
+    { code: 'EUR', name: 'Euro', symbol: '€', country: 'Euro Member' },
+    { code: 'NGN', name: 'Naira', symbol: '₦', country: 'United States' },
   ];
 
   // Stores maximum number of item input fields allowed
@@ -44,7 +44,7 @@ function Form(props) {
       ...prevState,
       inputItems: [
         ...invoiceData.inputItems,
-        { quantity: "", description: "", price: "" },
+        { quantity: '', description: '', price: '' },
       ],
     }));
   };
@@ -66,7 +66,7 @@ function Form(props) {
         const [file] = files;
         const tempFileUrl = URL.createObjectURL(file);
         details[name] = file;
-        details["companyLogoTemp"] = tempFileUrl;
+        details['companyLogoTemp'] = tempFileUrl;
       } else {
         details[name] = value;
       }
@@ -80,22 +80,22 @@ function Form(props) {
   // Send invoice data to the backend
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onCreateAndDownloadInvoice(invoiceData);
+    onSubmit(invoiceData);
   };
 
   return (
     <Card>
-      <form method="POST" className={style.form} onSubmit={submitHandler}>
+      <form method="POST" className={styles.form} onSubmit={submitHandler}>
         <Grid>
-          <div className={style.invoice_details}>
+          <div className={styles.invoice_details}>
             <h2>Invoice Details</h2>
             <fieldset>
               <legend>From</legend>
-              <div className={style.input_group}>
-                <div style={{ marginBottom: "20px" }}>
+              <div className={styles.input_group}>
+                <div styles={{ marginBottom: '20px' }}>
                   <label
                     htmlFor="currency"
-                    style={{ display: "block", marginBottom: "8px" }}
+                    styles={{ display: 'block', marginBottom: '8px' }}
                   >
                     Choose currency
                   </label>
@@ -118,13 +118,13 @@ function Form(props) {
                 <div>
                   {companyLogoTemp && (
                     <img
-                      className={style.company_logo}
+                      className={styles.company_logo}
                       src={companyLogoTemp}
                       alt="Company logo"
                     />
                   )}
                   <label
-                    className={style.file_upload_wrapper}
+                    className={styles.file_upload_wrapper}
                     htmlFor="companyLogo"
                   >
                     <input
@@ -135,12 +135,12 @@ function Form(props) {
                       onChange={onchangeHandler}
                     />
                     {companyLogoTemp
-                      ? "Choose a different logo"
-                      : "Upload a logo"}
+                      ? 'Choose a different logo'
+                      : 'Upload a logo'}
                   </label>
                 </div>
               </div>
-              <div className={style.input_group}>
+              <div className={styles.input_group}>
                 <div>
                   <label htmlFor="companyName">Company name</label>
                   <input
@@ -167,7 +167,7 @@ function Form(props) {
             </fieldset>
             <fieldset>
               <legend>Invoice</legend>
-              <div className={style.input_group}>
+              <div className={styles.input_group}>
                 <div>
                   <label htmlFor="invoiceNumber">Invoice number</label>
                   <input
@@ -194,7 +194,7 @@ function Form(props) {
             </fieldset>
             <fieldset>
               <legend>Bill To</legend>
-              <div className={style.input_group}>
+              <div className={styles.input_group}>
                 <div>
                   <label htmlFor="customerNamer">Customer name</label>
                   <input
@@ -221,7 +221,7 @@ function Form(props) {
             </fieldset>
             <fieldset>
               <legend>Ship To</legend>
-              <div className={style.input_group}>
+              <div className={styles.input_group}>
                 <div>
                   <label htmlFor="receiverName">Receiver name</label>
                   <input
@@ -247,10 +247,10 @@ function Form(props) {
               </div>
             </fieldset>
           </div>
-          <div className={style.invoice_items}>
+          <div className={styles.invoice_items}>
             <h2>Items</h2>
             {invoiceData.inputItems.map((item, index) => (
-              <div key={index} className={style.item}>
+              <div key={index} className={styles.item}>
                 <input
                   type="number"
                   min="1"
@@ -297,5 +297,3 @@ function Form(props) {
     </Card>
   );
 }
-
-export default Form;
