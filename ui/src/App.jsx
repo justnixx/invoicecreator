@@ -6,6 +6,8 @@ import { saveAs } from 'file-saver';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -46,6 +48,12 @@ export default function App() {
 
       saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
     } catch (e) {
+      toast.error(e.response.data?.error.message, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: true,
+        draggable: false,
+      });
       console.error('Error:', e);
     }
   };
@@ -58,6 +66,7 @@ export default function App() {
         <Form onSubmit={handleFormSubmission} />
       </Container>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }
