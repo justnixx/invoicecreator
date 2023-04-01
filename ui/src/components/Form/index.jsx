@@ -19,7 +19,7 @@ export default function Form({ onSubmit }) {
       shippingName: '',
       shippingAddress: '',
     },
-    lineItems: [{ quantity: '', description: '', price: '' }],
+    lineItems: [{ quantity: 1, description: '', price: 0.0 }],
   });
 
   // Supported currencies
@@ -43,7 +43,7 @@ export default function Form({ onSubmit }) {
       ...prevState,
       lineItems: [
         ...invoiceData.lineItems,
-        { quantity: '', description: '', price: '' },
+        { quantity: 1, description: '', price: 0.0 },
       ],
     }));
   };

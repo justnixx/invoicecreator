@@ -9,9 +9,13 @@ const publicTempDir = 'public/temp';
 const rootDir = path.resolve(__dirname + '/../');
 
 const createInvoice = (req, res) => {
-  const invoiceData = JSON.parse(req.body.invoiceData);
+  const invoiceData = JSON.parse(req.body.invoiceData || null);
 
-  // TODO: validate
+  if (!invoiceData || Object.keys(invoiceData).length === 0) {
+    const error = new Error('Invalid or empty payload');
+    error.status = 400;
+    throw error;
+  }
 
   // PDF options
   const options = {
@@ -41,12 +45,14 @@ const createInvoice = (req, res) => {
 
     // Validate file extension
     if (!allowedExtensions.includes(fileExtension.toLocaleLowerCase())) {
-      return res.json({ msg: 'Unsupported file format' });
+      const error = new Error('Unsupported file format');
+      error.status = 400;
+      throw error;
     }
 
     // Save file
     companyLogo.mv(pathToSaveFile, (err) => {
-      if (err) return res.status(500).json(err);
+      if (err) throw new Error(err);
     });
 
     // Update invoiceData - override company logo value
@@ -58,7 +64,7 @@ const createInvoice = (req, res) => {
     `${publicTempDir}/invoice.html`,
     DefaultTemplate(invoiceData).trim(),
     (err) => {
-      if (err) return res.json(err);
+      if (err) throw new Error(err);
 
       const invoiceHtml = fs.readFileSync(
         `${publicTempDir}/invoice.html`,
@@ -68,9 +74,9 @@ const createInvoice = (req, res) => {
       pdf
         .create(invoiceHtml, options)
         .toFile(`${rootDir}/${publicTempDir}/invoice.pdf`, (err) => {
-          if (err) res.json(err);
+          if (err) throw new Error(err);
 
-          res.json({ msg: 'Invoice created' });
+          res.json({ message: 'Invoice created' });
         });
     }
   );

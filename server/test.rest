@@ -1,1 +1,35 @@
 GET http://localhost:5000/
+###
+POST http://localhost:5000/create
+Content-Type: multipart/form-data
+
+{
+	"invoiceData": {
+		"details": {
+			"companyLogo": "",
+			"compTempLogo": "",
+			"currency": "",
+			"companyName": "",
+			"companyAddress": "",
+			"invoiceNumber": 2415,
+			"invoiceDate": "",
+			"billingName": "",
+			"billingAddress": "",
+			"shippingName": "",
+			"shippingAddress": ""
+		},
+		"lineItems": [{
+			"quantity": "",
+			"description": "",
+			"price": ""
+		}, {
+			"quantity": "",
+			"description": "",
+			"price": ""
+		}, {
+			"quantity": "",
+			"description": "",
+			"price": ""
+		}]
+	}
+}

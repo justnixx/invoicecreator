@@ -36,13 +36,17 @@
 
       .company_logo {
         position: absolute;
-        max-width: 60px;
-        max-height: 60px;
+        max-width: 80px;
+        max-height: 80px;
         top: -60px;
         right: 50%;
         -webkit-transform: translateX(50%);
         -ms-transform: translateX(50%);
         transform: translateX(50%);
+        object-fit: cover;
+        object-position: center;
+        background-color: #fff;
+        padding: 8px;
 
         @media screen and (max-width: 600px) {
           top: -118.5px;

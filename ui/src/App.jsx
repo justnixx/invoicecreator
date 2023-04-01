@@ -32,11 +32,11 @@ export default function App() {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
+      toast.success(postResponse.data?.message);
+
       const getResponse = await axiosInstance.get('/download', {
         responseType: 'blob',
       });
-
-      setLoading(false);
 
       const invoicePdfBlob = new Blob([getResponse.data], {
         type: 'application/pdf',
@@ -48,13 +48,11 @@ export default function App() {
 
       saveAs(invoicePdfBlob, `invoice_${new Date().getTime()}.pdf`);
     } catch (e) {
-      toast.error(e.response.data?.error.message, {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: true,
-        draggable: false,
-      });
+      toast.error(e.response.data?.error.message);
+
       console.error('Error:', e);
+    } finally {
+      setTimeout(() => setLoading(false), 2000);
     }
   };
 
@@ -66,7 +64,12 @@ export default function App() {
         <Form onSubmit={handleFormSubmission} />
       </Container>
       <Footer />
-      <ToastContainer />
+      <ToastContainer
+        position={toast.POSITION.BOTTOM_CENTER}
+        autoClose={5000}
+        hideProgressBar={true}
+        draggable={false}
+      />
     </div>
   );
 }
