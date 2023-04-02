@@ -1,16 +1,14 @@
-
 # Introduction
 
-![Invoice Creator](ui/public/logo.png "Invoice Creator")
+![Invoice Creator](ui/public/logo.png 'Invoice Creator')
 
 As the name implies, invoice creator is an invoice creator or generator web app.
 
 ## Usage
 
-- Visit [https://invoicecreator.nixx.dev](https://invoicecreator.nixx.dev)
-  
+- Visit [https://invoice.nixx.dev](https://invoice.nixx.dev)
 - Use forward slash in the address fields to define a line break
-  
+
 Example:
 
 `12345 Your street,/City, State/Country`
@@ -27,7 +25,7 @@ Country
 
 ## Demo
 
-See it live at [https://invoicecreator.nixx.dev](https://invoicecreator.nixx.dev)
+See it live at [https://invoice.nixx.dev](https://invoice.nixx.dev)
 
 ## Contributing
 
