@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Card from '../Card';
 import styles from './form.module.scss';
 import Grid from '../Grid';
+import { Tooltip } from 'react-tooltip';
 
 // Supported currencies
 const currencies = [
@@ -254,6 +255,8 @@ export default function Form({ onSubmit }) {
             {invoiceData.lineItems.map((item, index) => (
               <div key={index} className={styles.item}>
                 <input
+                  data-tooltip-id={`input-${index}`}
+                  data-tooltip-content="Quantity"
                   type="number"
                   min="1"
                   name="quantity"
@@ -262,6 +265,8 @@ export default function Form({ onSubmit }) {
                   onChange={(e) => handleOnchange(e, index)}
                 />
                 <input
+                  data-tooltip-id={`input-${index}`}
+                  data-tooltip-content="Description"
                   type="text"
                   name="description"
                   placeholder="Description"
@@ -269,6 +274,8 @@ export default function Form({ onSubmit }) {
                   onChange={(e) => handleOnchange(e, index)}
                 />
                 <input
+                  data-tooltip-id={`input-${index}`}
+                  data-tooltip-content="Price"
                   type="number"
                   min="1"
                   step=".01"
@@ -277,6 +284,7 @@ export default function Form({ onSubmit }) {
                   value={item.price}
                   onChange={(e) => handleOnchange(e, index)}
                 />
+                <Tooltip id={`input-${index}`} />
                 <button
                   type="button"
                   onClick={() => {

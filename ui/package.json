@@ -13,7 +13,8 @@
     "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-toastify": "^9.1.2"
+    "react-toastify": "^9.1.2",
+    "react-tooltip": "^5.10.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
