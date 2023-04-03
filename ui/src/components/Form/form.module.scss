@@ -1,4 +1,6 @@
 .form {
+  $primary-color: #e619a1;
+
   h2 {
     text-align: center;
   }
@@ -63,13 +65,6 @@
     select {
       display: block;
       width: 100%;
-
-      &[type='date'] {
-        ::-webkit-calendar-picker-indicator {
-          -webkit-filter: invert(100%);
-          filter: invert(100%);
-        }
-      }
     }
 
     label.file_upload_wrapper {
@@ -104,35 +99,39 @@
   }
 
   input::placeholder {
-    color: #ffffff;
+    color: #888;
   }
 
   input,
   textarea,
-  button,
   select {
     padding: 10px 20px;
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
-    color: #fafafa;
+    color: #333;
 
-    &:not(button) {
-      background-color: #222;
-    }
-
-    &:focus {
+    &:not(.item > input):focus {
       outline: none;
-      -webkit-box-shadow: 0 3px 4px 2px rgba(0, 0, 0, 0.1);
-      box-shadow: 0 3px 4px 2px rgba(0, 0, 0, 0.1);
+      border-color: $primary-color;
+      box-shadow: 0 0 4px rgba($primary-color, 0.7);
     }
   }
 
   button {
     display: inline-block;
-    background-color: #e619a1;
+    background-color: $primary-color;
     border: none;
     font-weight: 700;
     font-size: 20px;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    color: #fff;
+    transition: all 0.4s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
   }
 
   .invoice_items {
@@ -141,35 +140,28 @@
       display: -ms-flexbox;
       display: flex;
       margin-bottom: 10px;
+      border: 1px solid $primary-color;
+      border-radius: 4px;
+      overflow: hidden;
+
+      &:focus-within {
+        box-shadow: 0 0 4px rgba($primary-color, 0.7);
+      }
 
       input {
         width: calc(92% / 3);
-      }
-
-      input:nth-child(1) {
-        border-right: none;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      input:nth-child(2) {
-        border-left: none;
-        border-right: none;
+        border: none;
         border-radius: 0;
-      }
 
-      input:nth-child(3) {
-        border-left: none;
-        border-right: none;
-        border-radius: 0;
+        &:focus {
+          outline: none;
+        }
       }
 
       button {
         min-width: 8%;
-        border-left: none;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        cursor: pointer;
+        border-radius: 0;
+        border: none;
       }
 
       @media screen and (max-width: 600px) {

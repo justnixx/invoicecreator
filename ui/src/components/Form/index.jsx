@@ -3,6 +3,16 @@ import Card from '../Card';
 import styles from './form.module.scss';
 import Grid from '../Grid';
 
+// Supported currencies
+const currencies = [
+  { code: 'USD', name: 'Dollar', symbol: '$', country: 'United States' },
+  { code: 'GBP', name: 'Pound', symbol: '£', country: 'United Kingdom' },
+  { code: 'EUR', name: 'Euro', symbol: '€', country: 'Euro Member' },
+  { code: 'NGN', name: 'Naira', symbol: '₦', country: 'United States' },
+];
+
+const ITEM_MAX_COUNT = 10; // maximum number of line items allowed
+
 export default function Form({ onSubmit }) {
   // Form state
   const [invoiceData, setInvoiceData] = useState({
@@ -13,7 +23,7 @@ export default function Form({ onSubmit }) {
       companyName: '',
       companyAddress: '',
       invoiceNumber: Math.floor(Math.random() * (9999 - 1000) + 1000),
-      invoiceDate: '',
+      invoiceDate: new Date().toISOString().substring(0, 10),
       billingName: '',
       billingAddress: '',
       shippingName: '',
@@ -21,16 +31,6 @@ export default function Form({ onSubmit }) {
     },
     lineItems: [{ quantity: 1, description: '', price: 0.0 }],
   });
-
-  // Supported currencies
-  const currencies = [
-    { code: 'USD', name: 'Dollar', symbol: '$', country: 'United States' },
-    { code: 'GBP', name: 'Pound', symbol: '£', country: 'United Kingdom' },
-    { code: 'EUR', name: 'Euro', symbol: '€', country: 'Euro Member' },
-    { code: 'NGN', name: 'Naira', symbol: '₦', country: 'United States' },
-  ];
-
-  const ITEM_MAX_COUNT = 10; // maximum number of line items allowed
 
   // Destructure the current logo in the state
   const {
