@@ -6,7 +6,7 @@ As the name implies, invoice creator is an invoice creator or generator web app.
 
 ## Usage
 
-- Visit [https://invoice.nixx.dev](https://invoice.nixx.dev)
+- Visit [https://invoice.nixx.dev](https://nixx.dev/invoice-generator)
 - Use forward slash in the address fields to define a line break
 
 Example:
@@ -25,7 +25,7 @@ Country
 
 ## Demo
 
-See it live at [https://invoice.nixx.dev](https://invoice.nixx.dev)
+See it live at [https://invoice.nixx.dev](https://nixx.dev/invoice-generator)
 
 ## Contributing
 
